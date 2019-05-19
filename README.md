@@ -3,7 +3,7 @@ There was a partial outage for an hour on 02/01 from 9:15 AM UTC to 10:15 UTC wh
 
 # Solution
 
-## Define the DDL/schema to hold session data
+### Define the DDL/schema to hold session data
 
       CREATE TABLE IF NOT EXISTS login_event(
         session_id int NOT NULL,
@@ -13,7 +13,7 @@ There was a partial outage for an hour on 02/01 from 9:15 AM UTC to 10:15 UTC wh
         PRIMARY KEY (session_id, event_type)
       ) ;
       
-## Insert values into the above defined schemas
+### Insert values into the above defined schemas
 
       INSERT INTO login_event (session_id, event_time, event_type, user_id) VALUES
         ('100', '2019/02/01 9:00', 'login', 1),
@@ -30,7 +30,7 @@ There was a partial outage for an hour on 02/01 from 9:15 AM UTC to 10:15 UTC wh
        ;
 
         
-# Now we will write and execute a sql script to identy users who had an active session during the outage and compute the total usage in second by all active users. 
+### Now we will write and execute a sql script to identy users who had an active session during the outage and compute the total usage in second by all active users. 
  
       select  sum(wrap2.usage_in_secs) from
         (
@@ -47,13 +47,13 @@ There was a partial outage for an hour on 02/01 from 9:15 AM UTC to 10:15 UTC wh
         ) as wrap where wrap.event_type = 'logout' order by wrap.user_id
       ) as wrap2 ;
  
- # Output of the above SQL run
+ ### Output of the above SQL run
  
         sum
         ----
         8100
         
-# Now we will write and re-execute the above sql but this time instead of find the sum of usage in seconds by all users, we will rather compute the refund by using the output of the above query as in input.
+### Now we will write and re-execute the above sql but this time instead of find the sum of usage in seconds by all users, we will rather compute the refund by using the output of the above query as in input.
  
       select  wrap2.user_id, (10000*wrap2.usage_in_secs)/ 8100 as refund_$ from
         (
@@ -70,7 +70,7 @@ There was a partial outage for an hour on 02/01 from 9:15 AM UTC to 10:15 UTC wh
         ) as wrap where wrap.event_type = 'logout' order by wrap.user_id
       ) as wrap2 ;
  
- # Output of the above SQL run . The value under the column refund_$ will be refund amount to the user based on his/her usage during the outage. 
+### Output of the above SQL run . The value under the column refund_$ will be refund amount to the user based on his/her usage during the outage. 
  
         user_id	refund_$
         ----------------------
