@@ -53,7 +53,7 @@ There was a partial outage for an hour on 02/01 from 9:15 AM UTC to 10:15 UTC wh
         ----
         8100
         
-### Now we will write and re-execute the above sql but this time instead of find the sum of usage in seconds by all users, we will rather compute the refund by using the output of the above query as in input.
+### Now we will re-execute the above sql but this time instead of find the sum of usage in seconds by all users, we will rather compute the refund by using the output of the above query as in input.
  
       select  wrap2.user_id, (10000*wrap2.usage_in_secs)/ 8100 as refund_$ from
         (
